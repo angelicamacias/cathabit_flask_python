@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block main_content %}
+
+    <section class="habit-list">
+    {% for habit in habits %}
+        {% set completed = habit["_id"] in completions %}
+        {% if completed %}
+        <div class="habit__completed">
+            <p class="habit__name">{{ habit["name"] }}</p>
+            <svg class="habit__icon" width="72" height="65" viewBox="0 0 72 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="9.23862" cy="37.6155" r="8" transform="rotate(9.74404 9.23862 37.6155)" fill="#E9A883"/>
+                <path d="M12.4266 30.0459L45.4259 50.0564L37.1298 63.7375L4.1305 43.7271L12.4266 30.0459Z" fill="#E9A883"/>
+                <path d="M24 55.7483L58.0202 -3.8389e-05L71.678 8.33456L37.6578 64.0829L24 55.7483Z" fill="#E9A883"/>
+                <line x1="0.223607" y1="35.5528" x2="6.22361" y2="38.5528" stroke="#D76F35"/>
+                <line x1="4.22361" y1="30.5528" x2="10.2236" y2="33.5528" stroke="#D76F35"/>
+                <line x1="1.22361" y1="32.5528" x2="7.22361" y2="35.5528" stroke="#D76F35"/>
+                <line x1="47.265" y1="29.576" x2="55.265" y2="34.576" stroke="#EECFBE"/>
+                <line x1="50.2394" y1="12.5611" x2="61.2394" y2="18.5611" stroke="#EECFBE"/>
+                <line x1="35.2394" y1="44.5611" x2="46.2394" y2="50.5611" stroke="#EECFBE"/>
+            </svg> 
+        </div> 
+        {% else %}
+            <div class="habit">
+                <form method="POST" class="habit__form" action="{{ url_for('habits.complete')}}" >
+                    <input type="hidden" name="habitId" value="{{ habit['_id'] }}" />
+                    <input type="hidden" name="date" value="{{ selected_date}}" />
+                    <button type="submit" class="habit__button">
+                        {{ habit["name"] }}
+                    </button>
+                </form>
+            </div>
+        {% endif%}    
+    {% endfor %}
+    </section>
+{% endblock %}
